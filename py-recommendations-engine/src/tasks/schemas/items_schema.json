@@ -1,0 +1,31 @@
+{
+    "type": "record",
+    "name": "Items",
+    "namespace": "com.amazonaws.personalize.schema",
+    "fields": [
+        {
+            "name": "ITEM_ID",
+            "type": "string"
+        },
+        {
+            "name": "CREATION_TIMESTAMP",
+            "type": "long"
+        },
+        {
+            "name": "TYPE",
+            "type": "string",
+            "categorical": true
+        },
+        {
+            "name": "TOPICS",
+            "type": "string",
+            "categorical": true
+        },
+        {
+            "name": "CHANNELS",
+            "type": "string",
+            "categorical": true
+        }
+    ],
+    "version": "1.0"
+}

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "commonjs",
+    "lib": [ "es2015", "dom" ],
+    //"removeComments": true,
+    "preserveConstEnums": true
+  },
+  "include": ["packages/**/*"],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}

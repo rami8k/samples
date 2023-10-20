@@ -1,0 +1,11 @@
+../core/data-adapter
+../core/services
+../utils
+aws_xray_sdk==2.6.0
+boto3==1.16.30
+python-dotenv==0.13.0
+pytz==2020.1
+chardet==3.0.4
+requests==2.23.0
+urllib3==1.25.11
+s3fs===0.4.2

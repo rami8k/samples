@@ -1,0 +1,44 @@
+{
+  "name": "email-delivery-verification",
+  "version": "1.0.0",
+  "description": "Email delivery verification service",
+  "config": {
+    "api_svc": "./packages/api-service",
+    "jwt_auth": "./packages/jwt-authorizer",
+    "pass_auth": "./packages/password-authorizer"
+  },
+  "scripts": {
+    "lint": "eslint 'packages/**/*.{js,ts,tsx}' --quiet",
+    "package": "(zip lambda -r node_modules && cd lib && zip -r ../lambda *)",
+    "build:jwt-authorizer": "cd $npm_package_config_jwt_auth && yarn && yarn build",
+    "build:pass-authorizer": "cd $npm_package_config_pass_auth && yarn && yarn build",
+    "build:api-service": "cd $npm_package_config_api_svc && yarn && yarn build",
+    "build:all": "yarn build:jwt-authorizer && yarn build:pass-authorizer && yarn build:api-service",
+    "package:jwt-authorizer": "(cd $npm_package_config_jwt_auth && rm -r node_modules && yarn install --production && zip ../../jwt-authorizer-lambda -r node_modules && cd lib && zip -r ../../../jwt-authorizer-lambda *)",
+    "package:pass-authorizer": "(cd $npm_package_config_pass_auth && rm -r node_modules && yarn install --production && zip ../../pass-authorizer-lambda -r node_modules && cd lib && zip -r ../../../pass-authorizer-lambda *)",
+    "package:api-service": "(cd $npm_package_config_api_svc && rm -r node_modules && yarn install --production && zip ../../api-service-lambda -r node_modules && cd lib && zip -r ../../../api-service-lambda *)",
+    "package:all": "yarn package:jwt-authorizer && yarn package:pass-authorizer && yarn package:api-service"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.domain.com:team/BU/email-delivery-verification.git"
+  },
+  "keywords": [
+    "BU",
+    "emails"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "lerna": "^3.22.1",
+    "prettier": "^2.2.1",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.0.5"
+  }
+}

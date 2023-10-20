@@ -1,0 +1,10 @@
+variable "target_account_id" { type = string }
+variable "vpc" { type = string }
+variable "image" { type = string }
+variable "bucket_name" { type = string }
+variable "bwrite_url" { type = string }
+variable "personalize_solution_name" { type = string }
+variable "personalize_dataset_group_arn" { type = string }
+variable "personalize_solution_arn" { type = string }
+variable "initial_solution_data_folder" { type = string }
+variable "tags" { type = map(string) }

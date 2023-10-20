@@ -1,0 +1,36 @@
+{
+    "type": "record",
+    "name": "Users",
+    "namespace": "com.amazonaws.personalize.schema",
+    "fields": [
+        {
+            "name": "USER_ID",
+            "type": "string"
+        },
+        {
+            "name": "JOB_TITLE",
+            "type": "string"
+        },
+        {
+            "name": "STATE",
+            "type": "string",
+            "categorical": true
+        },
+        {
+            "name": "CTI",
+            "type": "string",
+            "categorical": true
+        },
+        {
+            "name": "BB_FIRM_ID",
+            "type": "string",
+            "categorical": true
+        },
+        {
+            "name": "BB_CUSTOMER_ID",
+            "type": "string",
+            "categorical": true
+        }
+    ],
+    "version": "1.0"
+}

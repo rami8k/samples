@@ -1,0 +1,5 @@
+region         = "us-east-1"
+bucket         = "tf-BU-gitlab-prd-us-east-1-123456"
+dynamodb_table = "terraform-lock"
+key            = "BU/12345.us-east-1.BU-edv-d.tfstate"
+kms_key_id     = "alias/source-tf-BU"
