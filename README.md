@@ -1,6 +1,6 @@
 # Porfolio Sample Projects
 
-## compliance-tool
+## js-compliance-tool
 
 GDPR compliance tracker and dashboard.
 
