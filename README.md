@@ -1,16 +1,32 @@
 # Porfolio Sample Projects
 
+## compliance-tool
+
+GDPR compliance tracker and dashboard.
+
+Stack:
+
+* GraphQl Server
+* Client frontend in VUE
+* Unit Tests in Jest
+* ESLint
+* Webpack
+
+Programming language:
+* JS
+
 ## py-recommendations-engine
 
 A recommendations engine based on AWS Personalize
 
-Programming language:
+Stack:
 
+* Monorepo 
 * Python3, Pandas, Numpy
 * Terraform
 * CI/CD in gitlab
 
-Infrastructure including:
+AWS Infrastructure:
 
 * Docker + Fargate
 * S3 buckets
@@ -30,7 +46,8 @@ Email Delivery Verification
 
 One stop shop to verify your emails/newsletters are delivered to your mailbox after the your delivery task has been triggered.
 
-Programming Language:
+Stack:
 * TypeScript
+* Monorepo using Lerna 
 * Terraform
 * CI/CD in gitlab

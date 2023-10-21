@@ -1,0 +1,11 @@
+patch-package
+new file mode 100644
+--- /dev/null
++++ b/node_modules/vuetiful/.gitignore
+@@ -0,0 +1,6 @@
++.DS_Store
++node_modules/
++dist/app/
++dist/*/report.html
++npm-debug.log.*
++*.log

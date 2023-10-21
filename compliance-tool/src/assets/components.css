@@ -1,0 +1,70 @@
+select {
+  width: 100%;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+input[type="datetime"],
+input[type="password"],
+input[type="search"],
+input[type="email"],
+select {
+    display: inline-block;
+    height: 3rem;
+    padding: 0 0.75rem;
+    border: 1px solid grey;
+    border-radius: 2px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: #2A9EF4;
+}
+
+.action-button {
+  display: inline-block;
+  margin-left: 10px;
+  padding-top: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-weight: 600;
+  line-height: inherit;
+  text-align: center;
+  color: #fff;
+  background-color: #2196f3;
+  border: none;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.action-button:hover,
+.action-button:focus {
+  background-color: #0c7cd5;
+  color: #fff;
+}
+
+.action-button:disabled {
+  background-color: grey;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.crud-icon {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.data-table {
+  font-size: 14px;
+}
+

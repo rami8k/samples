@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "N/A"},
+  { "id": 2, "name": "Critical" },
+  { "id": 3, "name": "High"},
+  { "id": 4, "name": "Moderate"},
+  { "id": 5, "name": "Low"},
+  { "id": 6, "name": "Very Low"}
+]
