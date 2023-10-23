@@ -1,0 +1,45 @@
+{
+  "name": "app-views",
+  "version": "1.0.0",
+  "description": "app application for articles views history",
+  "main": "index.js",
+  "config": {
+    "api_svc": "./packages/api-service",
+    "api_auth": "./packages/api-authorizer",
+    "data_adptr": "./packages/data-adapter",
+    "strm_hdlr": "./packages/stream-handler"
+  },
+  "scripts": {
+    "serve:dev": "ts-node $npm_package_config_api_svc/index.ts",
+    "serve": "node $npm_package_config_api_svc/lib/index.js",
+    "lint": "eslint 'packages/**/*.{js,ts,tsx}' --quiet",
+    "build:api-authorizer": "cd $npm_package_config_api_auth && yarn build",
+    "build:api-service": "cd $npm_package_config_api_svc && yarn build",
+    "build:data-adapter": "cd $npm_package_config_data_adptr && yarn build",
+    "build:stream-handler": "cd $npm_package_config_strm_hdlr && yarn build",
+    "build:all": "yarn build:api-authorizer && yarn build:api-service && yarn build:data-adapter && yarn build:stream-handler",
+    "package:api-authorizer": "(cd $npm_package_config_api_auth && zip ../../api-authorizer-lambda -r node_modules && cd lib && zip -r ../../../api-authorizer-lambda *)",
+    "package:api-service": "(cd $npm_package_config_api_svc && zip ../../api-service-lambda -r node_modules && cd lib && zip -r ../../../../api-service-lambda *)",
+    "package:stream-handler": "(cd $npm_package_config_strm_hdlr && zip ../../stream-handler-lambda -r node_modules && cd lib && zip -r ../../../stream-handler-lambda *)",
+    "package:all": "yarn package:api-authorizer && yarn package:api-service && yarn package:stream-handler",
+    "bootstrap": "lerna exec --stream yarn",
+    "clean": "lerna run --parallel clean"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.16.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "lerna": "^3.22.1",
+    "prettier": "^2.2.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5"
+  }
+}

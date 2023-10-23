@@ -1,0 +1,228 @@
+image: $__dockerHost/hashicorp/terraform:0.14.5
+
+include:
+  - project: 'ci-support/ci-notifications'
+    file: '/templates/ci-notifications.yml'
+  - project: 'templates/security_scans'
+    file: 'scanners.yml'
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH
+
+variables:
+  TERRAFORM_DIR: tf
+  TERRAFORM_PLAN_FILE: tf-plan
+  TERRAFORM_BACKEND_ACCOUNT: "12345"
+  TERRAFORM_BACKEND_REGION: "us-east-1"
+  API_SERVICE_PATH: "./packages/api-service"
+  STREAM_HANDLER_PATH: "./packages/stream-handler"
+  API_AUTHORIZER_PATH: "./packages/api-authorizer"
+  IS_SCHEDULED: "false"
+
+before_script:
+  - export CI_ENV=$(if [ "${CI_COMMIT_BRANCH}" == "master" ]; then echo "prd"; else echo "dev"; fi)
+  - export AWS_DEFAULT_REGION=$TERRAFORM_BACKEND_REGION
+
+cache:
+  untracked: true
+  key: "$CI_COMMIT_SHA"
+  paths:
+    - .terraform
+    - node_modules
+
+stages:
+  - build
+  - security scans
+  - test
+  - deploy
+  - notifications
+  - destroy
+
+default:
+  tags:
+    - tf-eks-runner-app
+
+.dev:
+  variables:
+    BACKEND: env/dev-backend.tfvars
+    VARS: env/dev.tfvars
+    TERRAFORM_PLAN_FILE: tf-plan-dev
+
+.prod:
+  variables:
+    BACKEND: env/prod-backend.tfvars
+    VARS: env/prod.tfvars
+    TERRAFORM_PLAN_FILE: tf-plan-prod
+  resource_group: prod
+
+.security scan:
+  stage: security scans
+  interruptible: true
+  allow_failure: true
+  variables:
+    TARGET: api-service-lambda.zip stream-handler-lambda.zip api-authorizer-lambda.zip
+    APP_ID: app-views
+    STAGE: $STAGE
+  before_script:
+    - STAGE=$(if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ]; then echo "build"; else echo "release"; fi)
+  needs:
+    - job: build
+      artifacts: true
+
+build:
+  stage: build
+  image: $__dockerHost/app/lerna-jq-zip-ts:node14-ts4
+  script:
+    - yarn
+    - yarn global add lerna
+    - yarn bootstrap
+    - yarn build:all
+    - lerna clean -y
+    - rm -r node_modules
+    - lerna exec --stream "yarn --production"
+    - (cd $API_SERVICE_PATH && zip ../../api-service-lambda -r node_modules && cd lib && zip -r ../../../api-service-lambda *)
+    - (cd $STREAM_HANDLER_PATH && zip ../../stream-handler-lambda -r node_modules && cd lib && zip -r ../../../stream-handler-lambda *)
+    - (cd $API_AUTHORIZER_PATH && zip ../../api-authorizer-lambda -r node_modules && cd lib && zip -r ../../../api-authorizer-lambda *)
+  artifacts:
+    untracked: true
+
+git guardian:
+  extends:
+    - .gitguardian_scan
+    - .security scan
+  rules:
+    - if: $IS_SCHEDULED == "false"
+
+sonatype scan:
+  extends:
+    - .security scan
+    - .iq_policy_eval
+  rules:
+    - if: $IS_SCHEDULED == "false"
+
+veracode scan 1/3:
+  extends:
+    - .pipeline_scan
+    - .security scan
+  variables:
+    TARGET: api-service-lambda.zip
+    VID: "api-service"
+  rules:
+    - if: $IS_SCHEDULED == "false"
+
+veracode scan 2/3:
+  extends:
+    - .pipeline_scan
+    - .security scan
+  variables:
+    TARGET: stream-handler-lambda.zip
+    VID: "stream-handler"
+  rules:
+    - if: $IS_SCHEDULED == "false"
+
+veracode scan 3/3:
+  extends:
+    - .pipeline_scan
+    - .security scan
+  variables:
+    TARGET: api-authorizer-lambda.zip
+    VID: "api-authorizer"
+  rules:
+    - if: $IS_SCHEDULED == "false"
+
+veracode scheduled scan 1/3:
+  extends:
+    - .veracode_scan
+    - .security scan
+  variables:
+    TARGET: api-service-lambda.zip
+    VID: "api-service"
+  rules:
+    - if: $IS_SCHEDULED == "true"
+
+veracode scheduled scan 2/3:
+  extends:
+    - .veracode_scan
+    - .security scan
+  variables:
+    TARGET: stream-handler-lambda.zip
+    VID: "stream-handler"
+  rules:
+    - if: $IS_SCHEDULED == "true"
+
+veracode scheduled scan 3/3:
+  extends:
+    - .veracode_scan
+    - .security scan
+  variables:
+    TARGET: api-authorizer-lambda.zip
+    VID: "api-authorizer"
+  rules:
+    - if: $IS_SCHEDULED == "true"
+
+.deploy:
+  stage: deploy
+  script:
+    - cd tf
+    - terraform init -backend-config=$BACKEND
+    - terraform validate
+    - terraform apply -auto-approve -var-file=$VARS
+
+deploy dev:
+  extends:
+    - .deploy
+    - .dev
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      when: manual
+      allow_failure: false
+
+deploy prod:
+  extends:
+    - .deploy
+    - .prod
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: false
+
+notifications:
+  stage: notifications
+  variables:
+    PROJECT_NAME: "app-Views"
+    DEPLOYMENT_ENV: "production"
+    RELEASE: $CI_PIPELINE_IID
+    COMMIT_MESSAGE: $CI_COMMIT_MESSAGE
+  needs:
+    - deploy prod
+  only:
+    - master
+
+# ### uncomment to add a destroy stage (will delete all AWS resources in the target account) ###
+# tf destroy dev:
+#   stage: destroy
+#   script:
+#     - terraform init -backend-config=tf_env/dev-backend.tfvars $TERRAFORM_DIR
+#     - terraform destroy -auto-approve -var-file=tf_env/dev.tfvars $TERRAFORM_DIR
+#   when: manual
+#   dependencies:
+#     - tf apply dev
+#   needs:
+#     - tf apply dev
+#   only:
+#     - branches
+
+# tf destroy prd:
+#   stage: destroy
+#   resource_group: prd
+#   script:
+#     - terraform init -backend-config=tf_env/prd-backend.tfvars $TERRAFORM_DIR
+#     - terraform destroy -auto-approve -var-file=tf_env/dev.tfvars $TERRAFORM_DIR
+#   when: manual
+#   dependencies:
+#     - tf apply prd
+#   needs:
+#     - tf apply prd
+#   only:
+#     - master

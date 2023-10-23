@@ -25,12 +25,12 @@ variable "target_role_name" {
 
 variable "team_name" {
   type    = string
-  default = "your_team_name" //todo: make sure it matches the TEAM_NAME in gitlab-ci, ex: news
+  default = "your_team_name" //todo: make sure it matches the TEAM_NAME in gitlab-ci, ex:
 }
 
 variable "application_name" {
   type    = string
-  default = "your_application_name" //todo: make sure it matches the APPLICATION_NAME in gitlab-ci, ex: news-recommendations
+  default = "your_application_name" //todo: make sure it matches the APPLICATION_NAME in gitlab-ci, ex: recommendations
 }
 
 variable "tags" {

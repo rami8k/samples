@@ -1,0 +1,23 @@
+{
+  "name": "@org/app-views-api-authorizer",
+  "version": "1.0.0",
+  "description": "AWS API Gatway endpoint authorizoration handler",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "test"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@types/node": "^14.14.10",
+    "aws-xray-sdk-core": "^3.0.1",
+    "jsonwebtoken": "^9.0.0"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.661.0"
+  }
+}

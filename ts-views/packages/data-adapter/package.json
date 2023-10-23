@@ -1,0 +1,22 @@
+{
+  "name": "@org/app-views-data-adapter",
+  "version": "1.0.0",
+  "description": "Database access layer",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "test"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@types/node": "^14.14.10"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.5",
+    "aws-sdk": "^2.661.0"
+  }
+}

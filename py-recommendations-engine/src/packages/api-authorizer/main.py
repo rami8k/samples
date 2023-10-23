@@ -10,7 +10,7 @@ def getSecret():
     client = boto3.client('ssm')
 
     response = client.get_parameter(
-        Name='/news/all/JWT_SECRET',
+        Name='/team/all/JWT_SECRET',
         WithDecryption=True
     )
 

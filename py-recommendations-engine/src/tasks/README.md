@@ -34,5 +34,5 @@ Generic list of tasks, can be used to create AWS Personalize resources in produc
 | delete_solition         |arg1: solution_arn                             | dynbamoDb to hold items for training pipeline and recent items for recommendations api |
 | create_solution         |arg1: solution_name                            | scheduled job to pull latest items from bwrite |
 | create_solution_version |arg1: solution_arn, arg2: mode                 | scheduled job to import items into Personalize Items Dataset |
-| delete_campaign         |arg1: campaign_arn                             | news recommendations and interactions APIs infrastructure |
+| delete_campaign         |arg1: campaign_arn                             | recommendations and interactions APIs infrastructure |
 | create_campaign         |arg1: campaign_name, arg2: solution_version_arn| scheduled job to traing personalize solution |

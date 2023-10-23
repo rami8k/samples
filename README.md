@@ -6,14 +6,12 @@ GDPR compliance tracker and dashboard.
 
 Stack:
 
+* Node
 * GraphQl Server
-* Client frontend in VUE
-* Unit Tests in Jest
+* VUE Frontend
+* Jest
 * ESLint
 * Webpack
-
-Programming language:
-* JS
 
 ## py-recommendations-engine
 
@@ -50,4 +48,16 @@ Stack:
 * TypeScript
 * Monorepo using Lerna 
 * Terraform
+* CI/CD in gitlab
+
+## ts-views
+
+Views
+
+Application service to count article visits based on DynamoDB for low cost implementation.
+
+Stack:
+* TypeScript
+* Monorepo using Lerna 
+* Terraform + AWS
 * CI/CD in gitlab

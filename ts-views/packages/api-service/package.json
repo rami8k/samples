@@ -1,0 +1,30 @@
+{
+  "name": "@org/app-views-api-service",
+  "version": "1.0.0",
+  "description": "app application for articles views history",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "serve:dev": "ts-node Server.ts",
+    "serve": "node lib/Server.js",
+    "build": "tsc",
+    "test": "test"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@org/app-views-data-adapter": "link:../data-adapter",
+    "@newrelic/native-metrics": "^6.0.0",
+    "@vendia/serverless-express": "^3.4.0",
+    "aws-xray-sdk-core": "^3.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "ts-node": "^9.0.0",
+    "aws-sdk": "^2.661.0"
+  }
+}
