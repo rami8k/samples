@@ -2,6 +2,15 @@
 
 > Compliance Tool
 
+## Stack:
+
+* Node
+* GraphQl Server
+* VUE Frontend
+* Jest
+* ESLint
+* Webpack
+
 ## Build Setup (UI)
 
 ``` bash

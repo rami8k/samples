@@ -2,11 +2,12 @@
 
 One stop shop to verify your emails/newsletters are delivered to your mailbox after the your delivery task has been triggered.
 
-## Programming Language
-
-TypeScript
-Terraform
-CI/CD in gitlab
+## Stack:
+* TypeScript
+* Monorepo using Lerna 
+* Terraform
+* CI/CD in gitlab
+* AWS
 
 ## How it  works
 
